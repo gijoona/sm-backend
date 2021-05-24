@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common'
+import { InjectModel } from '@nestjs/sequelize'
+import { Item } from './models/item.model'
 
 @Injectable()
 export class ItemsService {
+  constructor(@InjectModel(Item) private itemModel: typeof Item) {}
   private itemsList = [
     {code: '000101', 
       name: '생감자 , POTATO , FRESH', 
@@ -125,7 +128,32 @@ export class ItemsService {
       price: 0}  
   ]
 
-  findAll() {
-    return this.itemsList
+  async findAll(): Promise<Item[]> {
+    return this.itemModel.findAll();
+  }
+
+  findOne(code: string): Promise<Item> {
+    return this.itemModel.findOne({
+      where: {
+        code,
+      }
+    })
+  }
+
+  async create(item: Item): Promise<Item> {
+    return this.itemModel.create(item);
+  }
+
+  async createList(items: Item[]): Promise<Item[]> {
+    return this.itemModel.bulkCreate(items);
+  }
+
+  async update(item: Item): Promise<[number, Item[]]> {
+    return this.itemModel.update(item, { where: { code: item.code }});
+  }
+
+  async delete(code: string): Promise<void> {
+    const item = await this.findOne(code);
+    return item.destroy();
   }
 }
