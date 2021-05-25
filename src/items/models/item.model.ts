@@ -35,6 +35,9 @@ export class Item extends Model {
   
   @Column
   marker: string;
+
+  @Column
+  description: string;
   
   @Column
   category_code: string;
