@@ -8,8 +8,12 @@ import { Item } from './models/item.model'
 export class ItemsService {
   constructor(@InjectModel(Item) private itemModel: typeof Item) {}
 
-  async findAll(page: number = 0, limit: number = 30, category: string = '00'): Promise<Item[]> {
-    return this.itemModel.findAll({
+  async findAll(page: number = 0, limit: number = 30, category: string = '00')
+  : Promise<{
+    rows: Item[];
+    count: number; 
+  }> {
+    return this.itemModel.findAndCountAll({
       offset: page * limit,
       limit: limit,
       where: {
@@ -18,8 +22,12 @@ export class ItemsService {
     });
   }
 
-  async find(page: number = 0, limit: number = 30, search: string = '', category: string = '00'): Promise<Item[]> {
-    return this.itemModel.findAll({
+  async find(page: number = 0, limit: number = 30, search: string = '', category: string = '00')
+  : Promise<{
+    rows: Item[];
+    count: number;
+  }> {
+    return this.itemModel.findAndCountAll({
       offset: page * limit,
       limit: limit,
       where: {
