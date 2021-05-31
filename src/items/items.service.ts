@@ -8,7 +8,7 @@ import { Item } from './models/item.model'
 export class ItemsService {
   constructor(@InjectModel(Item) private itemModel: typeof Item) {}
 
-  async findAll(page: number = 0, limit: number = 30, category: string = '00')
+  async findAll(page: number = 0, limit: number = 15, category: string = '00')
   : Promise<{
     rows: Item[];
     count: number; 
@@ -22,7 +22,7 @@ export class ItemsService {
     });
   }
 
-  async find(page: number = 0, limit: number = 30, search: string = '', category: string = '00')
+  async find(page: number = 0, limit: number = 15, search: string = '', category: string = '00')
   : Promise<{
     rows: Item[];
     count: number;
