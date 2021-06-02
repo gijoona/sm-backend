@@ -1,4 +1,4 @@
-import { Get } from '@nestjs/common';
+import { Get, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Controller } from '@nestjs/common';
 
@@ -9,5 +9,10 @@ export class UserController {
   @Get('/findAll')
   findAll() {
     return this.userService.findAll()
+  }
+
+  @Get('/findOne/:id')
+  findOne(@Param('id') id: string) {
+    return this.userService.findOne(id);
   }
 }
