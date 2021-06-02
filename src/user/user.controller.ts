@@ -1,4 +1,4 @@
-import { Get, Param } from '@nestjs/common';
+import { Get, Param, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Controller } from '@nestjs/common';
 
@@ -6,9 +6,9 @@ import { Controller } from '@nestjs/common';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get('/findAll')
-  findAll() {
-    return this.userService.findAll()
+  @Get('/find')
+  findAll(@Query('page') page: string, @Query('limit') limit: string, @Query('search') search?: string) {
+    return this.userService.find(+page, +limit, search);
   }
 
   @Get('/findOne/:id')

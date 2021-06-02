@@ -16,13 +16,10 @@ export class UserService {
     return this.userModel.findAndCountAll({
       offset: page * limit,
       limit: limit,
-      where: {
-        code: {[Op.startsWith]: category}
-      }
     });
   }
 
-  async find(page: number = 0, limit: number = 15, search: string = '', category: string = '00')
+  async find(page: number = 0, limit: number = 15, search: string = '')
   : Promise<{
     rows: User[];
     count: number;
@@ -31,13 +28,19 @@ export class UserService {
       offset: page * limit,
       limit: limit,
       where: {
-        [Op.and]: [
-          {code: {[Op.startsWith]: category}},
-          {[Op.or]: [
-            {code: {[Op.like]: '%' + search + '%'}},
-            {nameKor: {[Op.like]: '%' + search + '%'}},
-            {nameEng: {[Op.like]: '%' + search + '%'}}
-          ]}
+        [Op.or]: [
+          {id: {[Op.like]: '%' + search + '%'}},
+          {name: {[Op.like]: '%' + search + '%'}},
+          {email: {[Op.like]: '%' + search + '%'}},
+          {tel: {[Op.like]: '%' + search + '%'}},
+          {phone: {[Op.like]: '%' + search + '%'}},
+          {fax: {[Op.like]: '%' + search + '%'}},
+          {zipCode: {[Op.like]: '%' + search + '%'}},
+          {addr1: {[Op.like]: '%' + search + '%'}},
+          {addr2: {[Op.like]: '%' + search + '%'}},
+          {companyNo: {[Op.like]: '%' + search + '%'}},
+          {corpNo: {[Op.like]: '%' + search + '%'}},
+          {ceoNm: {[Op.like]: '%' + search + '%'}}
         ]
       }
     });
