@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import { Op } from 'sequelize';
+import { Op, fn, col } from 'sequelize';
 import { Item } from './models/item.model'
 
 

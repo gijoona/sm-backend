@@ -1,47 +1,47 @@
 import { Column, Model, PrimaryKey, Table } from "sequelize-typescript";
 
-@Table({modelName: "sm_item_masters"})
+@Table({tableName: "SM_TSP_MST", timestamps: false})
 export class Item extends Model {
   @PrimaryKey
-  @Column
+  @Column({ field: 'PRD_CD' })
   code: string;
   
-  @Column
+  @Column({ field: 'PRD_NM_KR' })
   nameKor: string;
 
-  @Column
+  @Column({ field: 'PRD_NM_US' })
   nameEng: string;
 
-  @Column
+  @Column({ field: 'PRD_UNIT' })
   unit: string;
 
-  @Column
+  @Column({ field: 'PRD_PRC' })
   buyPrice: number;
 
-  @Column
+  @Column({ field: 'PRD_PRC1' })
   buyPrice1: number;
 
-  @Column
+  @Column({ field: 'PRD_PRC2' })
   buyPrice2: number;
 
-  @Column
+  @Column({ field: 'PCH_NM' })
   sellPlace: string;
 
-  @Column
+  @Column({ field: 'PCH_PRC' })
   sellPrice: number;
   
-  @Column
+  @Column({ field: 'PRD_IMG_PTH' })
   pig: string;
   
-  @Column
+  @Column({ field: 'PRD_MKR' })
   marker: string;
 
-  @Column
-  description: string;
+  // @Column
+  // description: string;
   
-  @Column
+  @Column({ field: 'CAT_CD' })
   category_code: string;
   
-  @Column
-  user_id: string;
+  // @Column
+  // user_id: string;
 }
