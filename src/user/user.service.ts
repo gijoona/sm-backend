@@ -54,6 +54,10 @@ export class UserService {
     })
   }
 
+  async save(user: User): Promise<[User, boolean]> {
+    return this.userModel.upsert(user);
+  }
+
   async create(user: User): Promise<User> {
     return this.userModel.create(user);
   }

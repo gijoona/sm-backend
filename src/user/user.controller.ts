@@ -1,6 +1,7 @@
-import { Get, Param, Query } from '@nestjs/common';
+import { Body, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Controller } from '@nestjs/common';
+import { User } from './models/user.model';
 
 @Controller('/user')
 export class UserController {
@@ -14,5 +15,15 @@ export class UserController {
   @Get('/findOne/:id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
+  }
+
+  @Post('/save')
+  save(@Body() user: User) {
+    return this.userService.save(user);
+  }
+
+  @Delete('/delete')
+  delete(@Query('id') id: string) {
+    return this.userService.delete(id);
   }
 }
