@@ -67,4 +67,9 @@ export class ItemsService {
     const item = await this.findOne(code);
     return item.destroy();
   }
+
+  async save(item: Item): Promise<[Item, boolean]> {
+    return this.itemModel.upsert(item);
+  }
+
 }

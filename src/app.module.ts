@@ -1,4 +1,4 @@
-import { UserModule } from './user/user.module';
+import { UserModule as UsersModule } from './user/users.module';
 import { CartModule } from './cart/cart.module';
 import { ItemsModule } from './items/items.module';
 import { Module } from '@nestjs/common';
@@ -11,7 +11,7 @@ import { CategoryModule } from './category/category.module';
     CategoryModule,
     ItemsModule,
     CartModule,
-    UserModule
+    UsersModule
   ],
 })
 export class AppModule {}

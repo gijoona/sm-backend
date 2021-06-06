@@ -33,8 +33,13 @@ export class ItemsController {
     return this.itemsService.update(item);
   }
 
+  @Post('/save')
+  save(@Body() item: Item) {
+    return this.itemsService.save(item);
+  }
+
   @Delete('/remove/:code')
   delete(@Param('code') code: string) {
-    this.itemsService.delete(code);
+    return this.itemsService.delete(code);
   }
 }

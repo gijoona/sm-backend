@@ -5,7 +5,7 @@ import { Op, fn, col } from 'sequelize';
 
 
 @Injectable()
-export class UserService {
+export class UsersService {
   constructor(@InjectModel(User) private userModel: typeof User) {}
 
   async findAll(page: number = 0, limit: number = 15, category: string = '00')
