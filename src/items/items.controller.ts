@@ -3,16 +3,19 @@ import { ItemsService } from './items.service';
 import { Controller } from '@nestjs/common';
 import { Item } from './models/item.model';
 import { Query } from '@nestjs/common';
+import { Public } from 'src/auth/public';
 
 @Controller('/items')
 export class ItemsController {
   constructor(private readonly itemsService: ItemsService) {}
 
+  @Public()
   @Get('/findAll')
   findAll(@Query('page') page: string, @Query('limit') limit: string, @Query('category') category?: string) {
     return this.itemsService.findAll(+page, +limit, category);
   }
 
+  @Public()
   @Get('/find')
   find(@Query('page') page: string, @Query('limit') limit: string, @Query('search') search: string, @Query('category') category?: string) {
     return this.itemsService.find(+page, +limit, search, category);

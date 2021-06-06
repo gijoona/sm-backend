@@ -3,10 +3,10 @@ import { Column, Model, PrimaryKey, Table } from "sequelize-typescript";
 @Table({tableName: "SM_TSP_CUST", })
 export class User extends Model {
   
-  // 아이디
+  // 회원코드
   @PrimaryKey
-  @Column({ field: 'CUST_ID' })
-  id: string;
+  @Column({ field: 'CUST_CD' })
+  code: string;
 
   // 이름
   @Column({ field: 'CUST_NM' })
@@ -88,4 +88,11 @@ export class User extends Model {
   @Column({ field: 'CEO_NM' })
   ceoNm: string;
   
+  // 아이디
+  @Column({ field: 'CUST_ID' })
+  id: string;
+
+  // 패스워드
+  @Column({ field: 'CUST_PWD' })
+  pass: string;
 }

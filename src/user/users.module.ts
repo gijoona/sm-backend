@@ -19,7 +19,8 @@ import { Module } from '@nestjs/common';
     SequelizeModule.forFeature([User])
   ],
   controllers: [UsersController],
-  providers: [UsersService]
+  providers: [UsersService],
+  exports: [UsersService]
 })
 
 export class UserModule {}

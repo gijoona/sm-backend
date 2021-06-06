@@ -2,6 +2,7 @@ import { Body, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { UsersService as UsersService } from './users.service';
 import { Controller } from '@nestjs/common';
 import { User } from './models/user.model';
+import { Public } from 'src/auth/public';
 
 @Controller('/users')
 export class UsersController {
