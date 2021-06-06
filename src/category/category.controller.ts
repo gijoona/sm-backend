@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Public } from "src/auth/public";
 import { CategoryService } from "./category.service";
 import { Category } from "./models/category.model";
 
@@ -6,6 +7,7 @@ import { Category } from "./models/category.model";
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
+  @Public()
   @Get('/findAll')
   findAll() {
     return this.categoryService.findAll();
