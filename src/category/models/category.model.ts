@@ -21,6 +21,6 @@ export class Category extends Model {
   @Column({ field: 'REG_DT'})
   createdAt: Date;
 
-  @Column({ field: 'UPT_DT'})
+  @Column({ field: 'UPD_DT'})
   updatedAt: Date;
 }
