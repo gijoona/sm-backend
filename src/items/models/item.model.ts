@@ -40,7 +40,7 @@ export class Item extends Model {
   // description: string;
   
   @Column({ field: 'CAT_CD' })
-  category_code: string;
+  categoryCode: string;
   
   // @Column
   // user_id: string;
