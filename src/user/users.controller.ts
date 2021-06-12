@@ -7,24 +7,30 @@ import { Public } from 'src/auth/public';
 @Controller('/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
+  
   @Get('/find')
   findAll(@Query('page') page: string, @Query('limit') limit: string, @Query('search') search?: string) {
     return this.usersService.find(+page, +limit, search);
   }
-
+  
   @Get('/findOne/:id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
-
+  
   @Post('/save')
   save(@Body() user: User) {
     return this.usersService.save(user);
   }
-
+  
   @Delete('/remove/:id')
   delete(@Param('id') id: string) {
     return this.usersService.delete(id);
+  }
+
+  @Public()
+  @Get('/carts/:userCd')
+  getCartList(@Param('userCd') code: string, @Query('page') page: string, @Query('limit') limit: string) {
+    return this.usersService.getCartList(+page, +limit, code);
   }
 }

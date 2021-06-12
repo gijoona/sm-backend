@@ -1,3 +1,4 @@
+import { Cart } from './../cart/models/cart.model';
 import { User } from './models/user.model';
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
@@ -73,5 +74,20 @@ export class UsersService {
   async delete(id: string): Promise<void> {
     const user = await this.findOne(id);
     return user.destroy();
+  }
+
+  async getCartList(page: number = 0, limit: number = 15, code: string) {
+    return this.userModel.findAndCountAll({ 
+      include: [{
+        model: Cart,
+        limit: limit,
+      }],
+      where: {
+        code
+      }
+    }).
+    then((users) => {
+      return { rows: users.rows[0].carts, count: users.count };
+    });
   }
 }

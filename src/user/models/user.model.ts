@@ -1,4 +1,5 @@
-import { Column, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { Cart } from './../../cart/models/cart.model';
+import { Column, Model, PrimaryKey, Table, HasMany } from "sequelize-typescript";
 
 @Table({tableName: "SM_TSP_CUST", })
 export class User extends Model {
@@ -95,4 +96,7 @@ export class User extends Model {
   // 패스워드
   @Column({ field: 'CUST_PWD' })
   pass: string;
+
+  @HasMany(() => Cart)
+  carts: Cart[];
 }

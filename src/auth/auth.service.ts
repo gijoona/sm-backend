@@ -23,7 +23,7 @@ export class AuthService {
      const payload = { username: user.name, sub: user.id };
      const { code, name, email, tel, fax, phone, id } = user.dataValues;
     return {
-       user: { code, name, email, tel, fax, phone, id },
+      user: { code, name, email, tel, fax, phone, id },
       access_token: this.jwtService.sign(payload)
     }
   }
