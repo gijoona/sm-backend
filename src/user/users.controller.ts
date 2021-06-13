@@ -29,8 +29,8 @@ export class UsersController {
   }
 
   @Public()
-  @Get('/carts/:userCd')
-  getCartList(@Param('userCd') code: string, @Query('page') page: string, @Query('limit') limit: string) {
-    return this.usersService.getCartList(+page, +limit, code);
+  @Get('/carts/:id')
+  getCartList(@Param('id') id: string, @Query('page') page: string, @Query('limit') limit: string) {
+    return this.usersService.getCartList(+page, +limit, id);
   }
 }

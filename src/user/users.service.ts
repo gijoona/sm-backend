@@ -1,13 +1,18 @@
-import { Cart } from './../cart/models/cart.model';
 import { User } from './models/user.model';
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { Op, fn, col } from 'sequelize';
 
+import { Cart } from './../cart/models/cart.model';
+import { Item } from 'src/items/models/item.model';
+
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User) private userModel: typeof User) {}
+  constructor(
+    @InjectModel(User) private userModel: typeof User,
+    @InjectModel(Cart) private cartModel: typeof Cart
+  ) {}
 
   async findAll(page: number = 0, limit: number = 15, category: string = '00')
   : Promise<{
@@ -76,18 +81,17 @@ export class UsersService {
     return user.destroy();
   }
 
-  async getCartList(page: number = 0, limit: number = 15, code: string) {
-    return this.userModel.findAndCountAll({ 
-      include: [{
-        model: Cart,
-        limit: limit,
-      }],
-      where: {
-        code
-      }
-    }).
-    then((users) => {
-      return { rows: users.rows[0].carts, count: users.count };
+  async getCartList(page: number = 0, limit: number = 15, id: string) {
+    return this.cartModel.findAndCountAll({ 
+      include: [
+        { 
+          model: User,
+          where: { id }
+        },
+        { model: Item }
+      ],
+      offset: page * limit,
+      limit: limit
     });
   }
 }

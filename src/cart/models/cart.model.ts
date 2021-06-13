@@ -1,4 +1,5 @@
-import { User } from './../../user/models/user.model';
+import { User } from 'src/user/models/user.model';
+import { Item } from 'src/items/models/item.model';
 import { Column, Model, PrimaryKey, ForeignKey, AutoIncrement, Table, CreatedAt, UpdatedAt, BelongsTo } from "sequelize-typescript";
 
 @Table({tableName: "SM_TSP_CART"})
@@ -16,6 +17,8 @@ export class Cart extends Model {
   userCd: string;
 
   // 제품코드
+  // Model association (1:N)
+  @ForeignKey(() => Item)
   @Column({ field: 'PRD_CD' })
   itemCd: string;
 
@@ -44,4 +47,8 @@ export class Cart extends Model {
   // Model association (1:N)
   @BelongsTo(() => User)
   user: User;
+
+  // Model association (1:N)
+  @BelongsTo(() => Item)
+  item: Item;
 }

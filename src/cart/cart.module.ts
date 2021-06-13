@@ -3,7 +3,9 @@ import { Cart } from './models/cart.model';
 import { CartService } from './cart.service';
 import { CartController } from './cart.controller';
 import { Module } from '@nestjs/common';
+
 import { User } from 'src/user/models/user.model';
+import { Item } from 'src/items/models/item.model';
 
 @Module({
   imports: [
@@ -14,9 +16,9 @@ import { User } from 'src/user/models/user.model';
       username: 'admin',
       password: 'tmaktjdrhd418!',
       database: 'testdb',
-      models: [User, Cart],
+      models: [User, Cart, Item],
     }),
-    SequelizeModule.forFeature([User, Cart])
+    SequelizeModule.forFeature([User, Cart, Item])
   ],
   controllers: [CartController],
   providers: [CartService]
