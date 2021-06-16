@@ -30,7 +30,13 @@ export class UsersController {
 
   @Public()
   @Get('/carts/:id')
-  getCartList(@Param('id') id: string, @Query('page') page: string, @Query('limit') limit: string) {
-    return this.usersService.getCartList(+page, +limit, id);
+  findCartAll(@Param('id') id: string, @Query('page') page: string, @Query('limit') limit: string) {
+    return this.usersService.findCartAll(+page, +limit, id);
+  }
+
+  @Public()
+  @Post('/carts/:id')
+  findCart(@Param('id') id: string, @Body() param: any) {
+    return this.usersService.findCart(+param.page, +param.limit, id, param.categorys, param.search);
   }
 }

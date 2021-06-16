@@ -81,8 +81,14 @@ export class UsersService {
     return user.destroy();
   }
 
-  async getCartList(page: number = 0, limit: number = 15, id: string) {
+  async findCartAll(page: number = 0, limit: number = 15, id: string)
+  :Promise<{
+    rows: Cart[];
+    count: number;
+  }> {
+    // TODO :: quantity와 buyPrice를 곱해서 합계를 가져와야 함.
     return this.cartModel.findAndCountAll({ 
+      attributes: { include: [[fn('SUM', col('quantity')), 'amount']] },
       include: [
         { 
           model: User,
@@ -93,5 +99,35 @@ export class UsersService {
       offset: page * limit,
       limit: limit
     });
+  }
+
+  async findCart(page: number = 0, limit: number = 15, id: string, categorys: string[], search: string)
+  :Promise<{
+    rows: Cart[];
+    count: number;
+  }> {
+    return this.cartModel.findAndCountAll({
+      include: [
+        {
+          model: User,
+          where: { id }
+        },
+        {
+          model: Item,
+          where: {
+            [Op.and]: {
+              code: {[Op.regexp]: '^' + categorys.join('|^') },
+              [Op.or]: {
+                code: {[Op.like]: '%' + search + '%'},
+                nameKor: {[Op.like]: '%' + search + '%'},
+                nameEng: {[Op.like]: '%' + search + '%'}
+              }
+            },
+          },
+        }
+      ],
+      offset: page * limit,
+      limit: limit
+    })
   }
 }
