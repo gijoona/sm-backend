@@ -1,7 +1,7 @@
 import { User } from './models/user.model';
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import { Op, fn, col } from 'sequelize';
+import { Op, fn, col, literal } from 'sequelize';
 
 import { Cart } from './../cart/models/cart.model';
 import { Item } from 'src/items/models/item.model';
@@ -88,7 +88,6 @@ export class UsersService {
   }> {
     // TODO :: quantity와 buyPrice를 곱해서 합계를 가져와야 함.
     return this.cartModel.findAndCountAll({ 
-      attributes: { include: [[fn('SUM', col('quantity')), 'amount']] },
       include: [
         { 
           model: User,

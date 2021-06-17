@@ -1,10 +1,8 @@
 import { Cart } from './models/cart.model';
-import { Public } from './../auth/public';
 import { Param, Body, Get, Post, Patch, Delete, Query } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { Controller } from '@nestjs/common';
 
-@Public()
 @Controller('/cart')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
@@ -27,5 +25,10 @@ export class CartController {
   @Delete('/remove/:id')
   removeCart(@Param('id') id: string) {
     return this.cartService.delete(+id);
+  }
+
+  @Post('/remove')
+  removeCarts(@Body() param: any) {
+    return this.cartService.deleteList(param.carts);
   }
 }

@@ -1,6 +1,6 @@
 import { InjectModel } from '@nestjs/sequelize';
 import { Cart } from './models/cart.model';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Query } from '@nestjs/common';
 
 @Injectable()
 export class CartService {
@@ -28,8 +28,19 @@ export class CartService {
     })
   }
 
-  async create(cart: Cart): Promise<Cart> {
-    return this.cartModel.create(cart);
+  async create(cart: Cart): Promise<[Cart, boolean]> {
+    const findCart = await this.cartModel.findOne({
+      where: {
+        userCd: cart.userCd,
+        itemCd: cart.itemCd
+      }
+    });
+    if (findCart) {
+      cart.id = findCart.id;
+      cart.quantity += findCart.quantity;
+    }
+
+    return this.cartModel.upsert(cart);
   }
 
   async update(cart: Cart): Promise<[number, Cart[]]> {
@@ -39,5 +50,13 @@ export class CartService {
   async delete(id: number): Promise<void> {
     const cart = await this.findOne(id);
     return cart.destroy();
+  }
+
+  async deleteList(carts: Cart[]): Promise<number> {
+    return this.cartModel.destroy({
+      where: {
+        id: carts.map(cart => cart.id)
+      }
+    })
   }
 }
