@@ -31,6 +31,18 @@ export class LangService {
     })
   }
 
+  async findOneMaster(id: number): Promise<LangMaster> {
+    return this.mstModel.findOne({
+      where: { id }
+    })
+  }
+
+  async findOneSlave(id: number): Promise<LangSlave> {
+    return this.slvModel.findOne({
+      where: { id }
+    })
+  }
+
   async createMaster(master: LangMaster): Promise<LangMaster> {
     return this.mstModel.create(master);
   }
@@ -38,4 +50,31 @@ export class LangService {
   async createSlave(slave: LangSlave): Promise<LangSlave> {
     return this.slvModel.create(slave);
   }
+
+  async updateMaster(master: LangMaster): Promise<[number, LangMaster[]]> {
+    return this.mstModel.update(master, { where: { id: master.id }});
+  }
+
+  async updateSlave(slave: LangSlave): Promise<[number, LangSlave[]]> {
+    return this.slvModel.update(slave, { where: { id: slave.id }});
+  }
+
+  async deleteMaster(id: number): Promise<void> {
+    const master = await this.findOneMaster(id);
+    master.destroy();
+  }
+
+  async deleteSlave(id: number): Promise<void> {
+    const slave = await this.findOneSlave(id);
+    slave.destroy();
+  }
+
+  async saveMaster(master: LangMaster): Promise<[LangMaster, boolean]> {
+    return this.mstModel.upsert(master);
+  }
+
+  async saveSlave(slave: LangSlave): Promise<[LangSlave, boolean]> {
+    return this.slvModel.upsert(slave);
+  }
+
 }
