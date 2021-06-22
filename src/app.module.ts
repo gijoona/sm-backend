@@ -1,3 +1,4 @@
+import { LangModule } from './lang/lang.module';
 import { UserModule as UsersModule } from './user/users.module';
 import { CartModule } from './cart/cart.module';
 import { ItemsModule } from './items/items.module';
@@ -14,7 +15,8 @@ import { AuthModule } from './auth/auth.module';
     ItemsModule,
     CartModule,
     UsersModule,
-    AuthModule
+    AuthModule,
+    LangModule
   ],
   controllers: [AppController]
 })
