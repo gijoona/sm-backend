@@ -8,6 +8,7 @@ import { Public } from 'src/auth/public';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
   
+  @Public()
   @Get('/find')
   findAll(@Query('page') page: string, @Query('limit') limit: string, @Query('search') search?: string) {
     return this.usersService.find(+page, +limit, search);
@@ -23,18 +24,22 @@ export class UsersController {
     return this.usersService.save(user);
   }
   
-  @Delete('/remove/:id')
-  delete(@Param('id') id: string) {
-    return this.usersService.delete(id);
+  @Public()
+  @Post('/create')
+  create(@Body() user: User) {
+    return this.usersService.create(user);
   }
 
-  @Public()
+  @Delete('/remove/:code')
+  delete(@Param('code') code: string) {
+    return this.usersService.delete(code);
+  }
+
   @Get('/carts/:id')
   findCartAll(@Param('id') id: string, @Query('page') page: string, @Query('limit') limit: string) {
     return this.usersService.findCartAll(+page, +limit, id);
   }
 
-  @Public()
   @Post('/carts/:id')
   findCart(@Param('id') id: string, @Body() param: any) {
     return this.usersService.findCart(+param.page, +param.limit, id, param.categorys, param.search);

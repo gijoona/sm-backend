@@ -54,8 +54,19 @@ export class UsersService {
 
   findOne(id: string): Promise<User> {
     return this.userModel.findOne({
+      include: [
+        { model: Cart, attributes: [ [fn('COUNT', 'code'), 'cartCnt'] ] }
+      ],
       where: {
         id,
+      }
+    })
+  }
+
+  findByCode(code: string): Promise<User> {
+    return this.userModel.findOne({
+      where: {
+        code,
       }
     })
   }
@@ -65,6 +76,7 @@ export class UsersService {
   }
 
   async create(user: User): Promise<User> {
+    user['code'] = await this.getMaxSeq();
     return this.userModel.create(user);
   }
 
@@ -76,8 +88,8 @@ export class UsersService {
     return this.userModel.update(user, { where: { id: user.id }});
   }
 
-  async delete(id: string): Promise<void> {
-    const user = await this.findOne(id);
+  async delete(code: string): Promise<void> {
+    const user = await this.findByCode(code);
     return user.destroy();
   }
 
@@ -128,5 +140,13 @@ export class UsersService {
       offset: page * limit,
       limit: limit
     })
+  }
+
+  private async getMaxSeq(): Promise<string> {
+    const maxCode: string = await this.userModel.max('code');
+    const tempCode: string = maxCode ? maxCode : 'C100000';
+
+    const genCode: string = 'C' + (parseInt(tempCode.substring(1)) + 1);
+    return genCode;
   }
 }
