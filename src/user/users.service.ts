@@ -71,7 +71,7 @@ export class UsersService {
     })
   }
 
-  async save(user: User): Promise<[User, boolean]> {
+  async save(user: User): Promise<boolean> {
     return this.userModel.upsert(user);
   }
 

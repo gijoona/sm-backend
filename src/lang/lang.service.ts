@@ -69,11 +69,11 @@ export class LangService {
     slave.destroy();
   }
 
-  async saveMaster(master: LangMaster): Promise<[LangMaster, boolean]> {
+  async saveMaster(master: LangMaster): Promise<boolean> {
     return this.mstModel.upsert(master);
   }
 
-  async saveSlave(slave: LangSlave): Promise<[LangSlave, boolean]> {
+  async saveSlave(slave: LangSlave): Promise<boolean> {
     return this.slvModel.upsert(slave);
   }
 

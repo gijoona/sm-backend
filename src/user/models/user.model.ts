@@ -1,7 +1,7 @@
 import { Cart } from './../../cart/models/cart.model';
 import { Column, Model, PrimaryKey, Table, HasMany } from "sequelize-typescript";
 
-@Table({tableName: "SM_TSP_CUST", })
+@Table({ tableName: "SM_TSP_CUST" })
 export class User extends Model {
   
   // 회원코드

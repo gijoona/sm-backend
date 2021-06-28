@@ -68,7 +68,7 @@ export class ItemsService {
     return item.destroy();
   }
 
-  async save(item: Item): Promise<[Item, boolean]> {
+  async save(item: Item): Promise<boolean> {
     return this.itemModel.upsert(item);
   }
 

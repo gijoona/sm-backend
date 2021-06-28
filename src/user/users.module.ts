@@ -26,4 +26,4 @@ import { Item } from 'src/items/models/item.model';
   exports: [UsersService]
 })
 
-export class UserModule {}
+export class UsersModule {}

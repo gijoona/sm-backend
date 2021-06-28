@@ -28,7 +28,7 @@ export class CartService {
     })
   }
 
-  async create(cart: Cart): Promise<[Cart, boolean]> {
+  async create(cart: Cart): Promise<boolean> {
     const findCart = await this.cartModel.findOne({
       where: {
         userCd: cart.userCd,
