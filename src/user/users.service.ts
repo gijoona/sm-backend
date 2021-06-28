@@ -76,8 +76,9 @@ export class UsersService {
   }
 
   async create(user: User): Promise<User> {
-    user['code'] = await this.getMaxSeq();
-    return this.userModel.create(user);
+    const code = await this.getMaxSeq();
+    const newUser = {...user, ...{ code: code }};
+    return this.userModel.create(newUser);
   }
 
   async createList(users: User[]): Promise<User[]> {
@@ -143,10 +144,10 @@ export class UsersService {
   }
 
   private async getMaxSeq(): Promise<string> {
-    const maxCode = await this.userModel.max('code');
-    const tempCode = maxCode ? maxCode : 'C100000';
+    const maxCode: string = await this.userModel.max('code');
+    const tempCode: string = maxCode ? maxCode : 'C100000';
 
-    const genCode: string = 'C' + (parseInt(tempCode.toString().substring(1)) + 1);
+    const genCode: string = 'C' + (parseInt(tempCode.substring(1)) + 1);
     return genCode;
   }
 }
