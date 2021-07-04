@@ -5,11 +5,13 @@ import { Op, fn, col, literal } from 'sequelize';
 
 import { Cart } from './../cart/models/cart.model';
 import { Item } from 'src/items/models/item.model';
+import { Company } from './models/comp.model';
 
 
 @Injectable()
 export class UsersService {
   constructor(
+    @InjectModel(Company) private compModel: typeof Company,
     @InjectModel(User) private userModel: typeof User,
     @InjectModel(Cart) private cartModel: typeof Cart
   ) {}
@@ -55,6 +57,7 @@ export class UsersService {
   findOne(id: string): Promise<User> {
     return this.userModel.findOne({
       include: [
+        { model: Company },
         { model: Cart, attributes: [ [fn('COUNT', 'code'), 'cartCnt'] ] }
       ],
       where: {

@@ -1,5 +1,6 @@
+import { Company } from './comp.model';
 import { Cart } from './../../cart/models/cart.model';
-import { Column, Model, PrimaryKey, Table, HasMany } from "sequelize-typescript";
+import { Column, Model, PrimaryKey, ForeignKey, Table, HasMany, BelongsTo } from "sequelize-typescript";
 
 @Table({ tableName: "SM_TSP_CUST" })
 export class User extends Model {
@@ -97,6 +98,22 @@ export class User extends Model {
   @Column({ field: 'CUST_PWD' })
   pass: string;
 
+  /**
+   * 업체 <-> 회원 관계
+   * Model association (1:N)
+   */
+  // 업체ID (업체키)
+  @ForeignKey(() => Company)
+  @Column({ field: 'CMP_ID' })
+  cmpId: number;
+
+  @BelongsTo(() => Company, 'cmpId')
+  comp: Company;
+
+  /**
+   * 회원 <-> 카트 관계
+   * Model association (1:N)
+   */
   @HasMany(() => Cart)
   carts: Cart[];
 }

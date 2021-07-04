@@ -6,6 +6,7 @@ import { Item } from './models/item.model';
 
 import { Cart } from 'src/cart/models/cart.model';
 import { User } from 'src/user/models/user.model';
+import { Company } from 'src/user/models/comp.model';
 
 @Module({
   imports: [
@@ -16,9 +17,9 @@ import { User } from 'src/user/models/user.model';
       username: 'admin',
       password: 'tmaktjdrhd418!',
       database: 'testdb',
-      models: [Item, Cart, User],
+      models: [Item, Cart, User, Company],
     }),
-    SequelizeModule.forFeature([Item, Cart, User])
+    SequelizeModule.forFeature([Item, Cart, User, Company])
   ],
   controllers: [ItemsController],
   providers: [ItemsService]
