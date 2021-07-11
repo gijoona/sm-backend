@@ -7,6 +7,8 @@ import { Module } from '@nestjs/common';
 import { Cart } from 'src/cart/models/cart.model';
 import { Item } from 'src/items/models/item.model';
 import { Company } from './models/comp.model';
+import { CompsController } from './comps.controller';
+import { CompsService } from './comps.service';
 
 
 @Module({
@@ -22,8 +24,8 @@ import { Company } from './models/comp.model';
     }),
     SequelizeModule.forFeature([Company, User, Cart, Item])
   ],
-  controllers: [UsersController],
-  providers: [UsersService],
+  controllers: [UsersController, CompsController],
+  providers: [UsersService, CompsService],
   exports: [UsersService]
 })
 

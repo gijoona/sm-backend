@@ -14,11 +14,12 @@ export class UsersController {
     return this.usersService.find(+page, +limit, search);
   }
   
+  @Public()
   @Get('/findOne/:id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
-  
+
   @Post('/save')
   save(@Body() user: User) {
     return this.usersService.save(user);
