@@ -1,4 +1,7 @@
-import { Column, Table, Model, PrimaryKey } from "sequelize-typescript";
+import { Column, Table, Model, PrimaryKey, BelongsToMany } from "sequelize-typescript";
+
+import { Company } from "src/user/models/comp.model";
+import { CompanyCategory } from "src/user/models/comp-category.model";
 
 @Table({tableName: 'SM_TSP_CAT'})
 export class Category extends Model {
@@ -23,4 +26,11 @@ export class Category extends Model {
 
   @Column({ field: 'UPD_DT'})
   updatedAt: Date;
+
+  /**
+   * 카테고리 <-> 업체 관계
+   * Model association (M:N)
+   */
+     @BelongsToMany(() => Company, () => CompanyCategory)
+     companys: Company[];
 }

@@ -1,21 +1,15 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
+
+import { Company } from 'src/user/models/comp.model';
+import { CompanyCategory } from 'src/user/models/comp-category.model';
+import { Category } from './models/category.model';
 import { CategoryController } from './category.controller';
 import { CategoryService } from './category.service';
-import { Category } from './models/category.model';
 
 @Module({
   imports: [
-    SequelizeModule.forRoot({
-      dialect: 'mariadb',
-      host: 'sm-testdb-1.c9osvixk8s7x.us-east-2.rds.amazonaws.com',
-      port: 3306,
-      username: 'admin',
-      password: 'tmaktjdrhd418!',
-      database: 'testdb',
-      models: [Category],
-    }),
-    SequelizeModule.forFeature([Category])
+    SequelizeModule.forFeature([Category, Company, CompanyCategory])
   ],
   controllers: [CategoryController],
   providers: [CategoryService]

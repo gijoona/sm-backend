@@ -1,5 +1,8 @@
+import { Column, Model, PrimaryKey, Table, HasMany, AutoIncrement, UpdatedAt, CreatedAt, BelongsToMany } from "sequelize-typescript";
+
 import { User } from './user.model';
-import { Column, Model, PrimaryKey, Table, HasMany, AutoIncrement, UpdatedAt, CreatedAt } from "sequelize-typescript";
+import { Category } from 'src/category/models/category.model';
+import { CompanyCategory } from './comp-category.model';
 
 @Table({ tableName: "SM_TSP_CMP" })
 export class Company extends Model {
@@ -54,4 +57,11 @@ export class Company extends Model {
    */
   @HasMany(() => User)
   users: User[];
+
+  /**
+   * 업체 <-> 카테고리 관계
+   * Model association (M:N)
+   */
+   @BelongsToMany(() => Category, () => CompanyCategory)
+   categorys: Category[];
 }
