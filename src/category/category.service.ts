@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
+import { Company } from "src/user/models/comp.model";
 import { Category } from "./models/category.model";
 
 @Injectable()
@@ -16,6 +17,15 @@ export class CategoryService {
         code,
       }
     })
+  }
+
+  async findCompanyList(code: string): Promise<Category[]> {
+    return this.categoryModel.findAll({
+      include: [
+        { model: Company, through: { attributes: [] } }
+      ],
+      where: { code }
+    });
   }
 
   async create(category: Category): Promise<Category> {

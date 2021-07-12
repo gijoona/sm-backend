@@ -97,6 +97,7 @@ export class UsersService {
     return user.destroy();
   }
 
+  // 사용안함
   async findCartAll(page: number = 0, limit: number = 15, id: string)
   :Promise<{
     rows: Cart[];

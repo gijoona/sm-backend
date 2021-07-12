@@ -36,6 +36,7 @@ export class UsersController {
     return this.usersService.delete(code);
   }
 
+  // 사용안함
   @Get('/carts/:id')
   findCartAll(@Param('id') id: string, @Query('page') page: string, @Query('limit') limit: string) {
     return this.usersService.findCartAll(+page, +limit, id);

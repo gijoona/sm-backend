@@ -13,6 +13,11 @@ export class CategoryController {
     return this.categoryService.findAll();
   }
 
+  @Get('/findCompanyList/:code')
+  findCompanyList(@Param('code') code: string) {
+    return this.categoryService.findCompanyList(code);
+  }
+
   @Post('/add')
   create(@Body() category: Category) {
     return this.categoryService.create(category);
