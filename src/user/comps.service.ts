@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
+import { Category } from "src/category/models/category.model";
 import { Company } from "./models/comp.model";
 
 @Injectable()
@@ -8,6 +9,9 @@ export class CompsService {
 
   async findCmpNo(cmpNo: string): Promise<Company> {
     return this.compModel.findOne({
+      include: [
+        { model: Category }
+      ],
       where: {
         cmpNo
       }
@@ -15,6 +19,11 @@ export class CompsService {
   }
 
   async save(company: Company): Promise<Company> {
-    return this.compModel.create(company);
+    const newComp = await this.compModel.create(company);
+    for(let category of company.categorys) {
+      const categoryModel = new Category(category);
+      newComp.$add('categorys', categoryModel);
+    }
+    return newComp;
   }
 }

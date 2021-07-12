@@ -1,4 +1,4 @@
-import { Model, Table, Column, PrimaryKey, AutoIncrement, ForeignKey } from 'sequelize-typescript';
+import { Model, Table, Column, PrimaryKey, AutoIncrement, ForeignKey, CreatedAt, UpdatedAt } from 'sequelize-typescript';
 
 import { Company } from 'src/user/models/comp.model';
 import { Category } from 'src/category/models/category.model';
@@ -17,4 +17,12 @@ export class CompanyCategory extends Model {
   @ForeignKey(() => Category)
   @Column({ field: 'CAT_CD' })
   catCd: string;
+
+  @CreatedAt
+  @Column({ field: 'REG_DT' })
+  createdAt: Date;
+
+  @UpdatedAt
+  @Column({ field: 'UPD_DT' })
+  updatedDt: Date;
 }
