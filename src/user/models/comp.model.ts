@@ -16,6 +16,18 @@ export class Company extends Model {
   // 업체명
   @Column({ field: 'CMP_NM' })
   name: string;
+
+  // 업체 이메일
+  @Column({ field: 'CMP_EML' })
+  email: string;
+
+  // 업체 전화
+  @Column({ field: 'CMP_TEL' })
+  tel: string;
+
+  // 업체 팩스
+  @Column({ field: 'CMP_FX' })
+  fax: string;
   
   // 우편번호
   @Column({ field: 'CMP_ZP_CD' })
