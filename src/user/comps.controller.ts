@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
 import { Public } from "src/auth/public";
 import { CompsService } from "./comps.service";
 import { Company } from "./models/comp.model";
@@ -17,5 +17,10 @@ export class CompsController {
   @Post('/save')
   save(@Body() company: Company) {
     return this.compsService.save(company);
+  }
+
+  @Patch('/update')
+  update(@Body() company: Company) {
+    return this.compsService.update(company);
   }
 }

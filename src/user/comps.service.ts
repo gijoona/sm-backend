@@ -1,11 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { Category } from "src/category/models/category.model";
+import { CompanyCategory } from "./models/comp-category.model";
 import { Company } from "./models/comp.model";
 
 @Injectable()
 export class CompsService {
-  constructor(@InjectModel(Company) private compModel: typeof Company) {}
+  constructor(
+    @InjectModel(Company) private compModel: typeof Company,
+    @InjectModel(CompanyCategory) private compCatModel: typeof CompanyCategory
+  ) {}
 
   async findCmpNo(cmpNo: string): Promise<Company> {
     return this.compModel.findOne({
@@ -25,5 +29,25 @@ export class CompsService {
       newComp.$add('categorys', categoryModel);
     }
     return newComp;
+  }
+
+  async update(company: Company): Promise<Company> {
+    // 업체정보 UPDATE
+    this.compModel.update(company, { where: { id: company.id } });
+
+    // 취급품목 갱신
+    //  1. 취급품목 삭제
+    const delDatas: CompanyCategory[] = await this.compCatModel.findAll({ where: { cmpId: company.id } });
+    for(let delData of delDatas) {
+      delData.destroy();
+    }
+    //  2. 취급품목 생성
+    const updateComp = await this.findCmpNo(company.cmpNo);
+    for(let category of company.categorys) {
+      const categoryModel = new Category(category);
+      await updateComp.$add('categorys', categoryModel);
+    }
+
+    return updateComp;
   }
 }
