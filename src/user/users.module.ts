@@ -12,10 +12,11 @@ import { Company } from './models/comp.model';
 import { CompsController } from './comps.controller';
 import { CompsService } from './comps.service';
 import { CompanyCategory } from './models/comp-category.model';
+import { CartItem } from 'src/cart/models/cart-item.model';
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([Company, User, Cart, Item, Category, CompanyCategory])
+    SequelizeModule.forFeature([Company, User, Cart, CartItem, Item, Category, CompanyCategory])
   ],
   controllers: [UsersController, CompsController],
   providers: [UsersService, CompsService],

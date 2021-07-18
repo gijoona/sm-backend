@@ -8,10 +8,11 @@ import { CartController } from './cart.controller';
 import { User } from 'src/user/models/user.model';
 import { Item } from 'src/items/models/item.model';
 import { Company } from 'src/user/models/comp.model';
+import { CartItem } from './models/cart-item.model';
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([User, Cart, Item, Company])
+    SequelizeModule.forFeature([User, Cart, Item, Company, CartItem])
   ],
   controllers: [CartController],
   providers: [CartService]

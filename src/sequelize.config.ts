@@ -10,6 +10,7 @@ import { CompanyCategory } from './user/models/comp-category.model';
 import { LangMaster } from './lang/models/lang.master.model';
 import { LangSlave } from './lang/models/lang.slave.model';
 import { Logs } from './logs/models/logs.model';
+import { CartItem } from './cart/models/cart-item.model';
 
 @Injectable()
 export class SequelizeConfigService implements SequelizeOptionsFactory {
@@ -21,7 +22,7 @@ export class SequelizeConfigService implements SequelizeOptionsFactory {
       username: 'admin',
       password: 'tmaktjdrhd418!',
       database: 'testdb',
-      models: [Company, User, Cart, Item, Category, CompanyCategory, LangMaster, LangSlave, Logs],
+      models: [Company, User, Cart, CartItem, Item, Category, CompanyCategory, LangMaster, LangSlave, Logs],
     }
   }
 }

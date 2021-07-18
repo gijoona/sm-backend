@@ -2,6 +2,7 @@ import { Cart } from './models/cart.model';
 import { Param, Body, Get, Post, Patch, Delete, Query } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { Controller } from '@nestjs/common';
+import { CartItem } from './models/cart-item.model';
 
 @Controller('/cart')
 export class CartController {
@@ -12,23 +13,39 @@ export class CartController {
     return this.cartService.findAll(+page, +limit);
   }
 
+  @Get('/findCartList/:code')
+  findCartList(@Param('code') userCd: string) {
+    return this.cartService.findCartList(userCd);
+  }
+
   @Post('/add')
   addCart(@Body() cart: Cart) {
-    return this.cartService.create(cart);
+    console.log('controller', cart);
+    return this.cartService.saveCart(cart);
   }
 
-  @Patch('/update')
-  updateCart(@Body() cart: Cart) {
-    return this.cartService.update(cart);
+  @Post('/addItem')
+  addCartItem(@Body() cartItem: CartItem) {
+    return this.cartService.createItem(cartItem);
   }
 
-  @Delete('/remove/:id')
+  @Patch('/updateItem')
+  updateCartItem(@Body() cartItem: CartItem) {
+    return this.cartService.updateItem(cartItem);
+  }
+
+  @Delete('/remove/:id') 
   removeCart(@Param('id') id: string) {
-    return this.cartService.delete(+id);
+    return this.cartService.deleteCart(+id);
   }
 
-  @Post('/remove')
+  @Delete('/removeItem/:id')
+  removeCartItem(@Param('id') id: string) {
+    return this.cartService.deleteItem(+id);
+  }
+
+  @Post('/removeItems')
   removeCarts(@Body() param: any) {
-    return this.cartService.deleteList(param.carts);
+    return this.cartService.deleteItems(param.cartItems);
   }
 }

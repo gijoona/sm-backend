@@ -7,6 +7,7 @@ import { Cart } from './../cart/models/cart.model';
 import { Item } from 'src/items/models/item.model';
 import { Company } from './models/comp.model';
 import { Category } from 'src/category/models/category.model';
+import { CartItem } from 'src/cart/models/cart-item.model';
 
 
 @Injectable()
@@ -14,7 +15,8 @@ export class UsersService {
   constructor(
     @InjectModel(Company) private compModel: typeof Company,
     @InjectModel(User) private userModel: typeof User,
-    @InjectModel(Cart) private cartModel: typeof Cart
+    @InjectModel(Cart) private cartModel: typeof Cart,
+    @InjectModel(CartItem) private cartItemModel: typeof CartItem
   ) {}
 
   async findAll(page: number = 0, limit: number = 15, category: string = '00')
@@ -98,21 +100,18 @@ export class UsersService {
     return user.destroy();
   }
 
-  // 사용안함
   async findCartAll(page: number = 0, limit: number = 15, id: string)
   :Promise<{
-    rows: Cart[];
+    rows: CartItem[];
     count: number;
   }> {
-    // TODO :: quantity와 buyPrice를 곱해서 합계를 가져와야 함.
-    return this.cartModel.findAndCountAll({ 
+    return this.cartItemModel.findAndCountAll({ 
       include: [
-        { 
-          model: User,
-          where: { id }
-        },
         { model: Item }
       ],
+      where: {
+        cartId: id
+      },
       offset: page * limit,
       limit: limit
     });
@@ -120,15 +119,15 @@ export class UsersService {
 
   async findCart(page: number = 0, limit: number = 15, id: string, categorys: string[], search: string)
   :Promise<{
-    rows: Cart[];
+    rows: CartItem[];
     count: number;
   }> {
-    return this.cartModel.findAndCountAll({
+    return this.cartItemModel.findAndCountAll({
       include: [
-        {
-          model: User,
-          where: { id }
-        },
+        // {
+        //   model: Cart,
+        //   where: { id }
+        // },
         {
           model: Item,
           where: {
@@ -143,6 +142,9 @@ export class UsersService {
           },
         }
       ],
+      where: {
+        cartId: id
+      },
       offset: page * limit,
       limit: limit
     })

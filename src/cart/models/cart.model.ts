@@ -1,6 +1,7 @@
 import { User } from 'src/user/models/user.model';
 import { Item } from 'src/items/models/item.model';
-import { Column, Model, PrimaryKey, ForeignKey, AutoIncrement, Table, CreatedAt, UpdatedAt, BelongsTo } from "sequelize-typescript";
+import { Column, Model, PrimaryKey, ForeignKey, AutoIncrement, Table, CreatedAt, UpdatedAt, BelongsTo, HasMany } from "sequelize-typescript";
+import { CartItem } from './cart-item.model';
 
 @Table({tableName: "SM_TSP_CART"})
 export class Cart extends Model {
@@ -10,18 +11,25 @@ export class Cart extends Model {
   @Column({ field: 'CART_ID' })
   id: number;
   
-  
-  // 제품순번...?
-  @Column({ field: 'PRD_SEQ' })
-  itemSeq: number;
-  
-  // 메모
-  @Column({ field: 'PRD_MMO' })
+  // 카트 SEQ. 날짜별 생성.
+  @Column({ field: 'CART_SEQ' })
+  seq: number;
+
+  // 카트 메모사항.
+  @Column({ field: 'CART_MEMO' })
   memo: string;
-  
-  // 수량
-  @Column({ field: 'PRD_QTY' })
-  quantity: number;
+
+  // 요청업체 아이디
+  @Column({ field: 'REQ_CMP_ID' })
+  cmpId: number;
+
+  // 요청업체 사업자등록번호
+  @Column({ field: 'REQ_CMP_NO' })
+  cmpNo: string;
+
+  // 요청업체 명
+  @Column({ field: 'REQ_CMP_NM' })
+  cmpNm: string;
   
   // 등록일자
   @CreatedAt
@@ -44,16 +52,21 @@ export class Cart extends Model {
   
   @BelongsTo(() => User, 'userCd')
   user: User;
-
+  
   /**
-   * 제품 <-> 카트 관계
+   * 카트 <-> 카트상세 관계
    * Model association (1:N)
    */
-  // 제품코드 (제품키)
-  @ForeignKey(() => Item)
-  @Column({ field: 'PRD_CD' })
-  itemCd: string;
+  @HasMany(() => CartItem)
+  cartItems: CartItem[];
+
+  // 안쓰는 컬럼들.
+  @Column({ field: 'PRD_SEQ' })
+  itemSeq: number;
   
-  @BelongsTo(() => Item, 'itemCd')
-  item: Item;
+  @Column({ field: 'PRD_MMO' })
+  itemMemo: string;
+  
+  @Column({ field: 'PRD_QTY' })
+  itemQuantity: number;
 }

@@ -1,5 +1,5 @@
-import { Cart } from "src/cart/models/cart.model"; 
 import { Column, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { CartItem } from "src/cart/models/cart-item.model";
 
 @Table({tableName: "SM_TSP_MST", timestamps: false})
 export class Item extends Model {
@@ -46,6 +46,6 @@ export class Item extends Model {
   // @Column
   // user_id: string;
 
-  @HasMany(() => Cart)
-  carts: Cart[];
+  @HasMany(() => CartItem)
+  cartItems: CartItem[];
 }
