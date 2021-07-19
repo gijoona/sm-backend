@@ -17,6 +17,7 @@ export class SequelizeConfigService implements SequelizeOptionsFactory {
   createSequelizeOptions(): SequelizeModuleOptions {
     return {
       dialect: 'mariadb',
+      dialectOptions: { charset: "utf8mb4", dateStrings: true, typeCast: true },
       host: 'sm-testdb-1.c9osvixk8s7x.us-east-2.rds.amazonaws.com',
       port: 3306,
       username: 'admin',

@@ -2,7 +2,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Cart } from './models/cart.model';
 import { Injectable, Query } from '@nestjs/common';
 import { CartItem } from './models/cart-item.model';
-import { Op, fn, literal } from 'sequelize';
+import { Op, fn, literal, col } from 'sequelize';
+import * as moment from 'moment-timezone';
 
 @Injectable()
 export class CartService {
@@ -34,16 +35,12 @@ export class CartService {
   }
 
   async saveCart(cart: Cart): Promise<boolean> {
-    const start = new Date();
-    start.setHours(0, 0, 0, 0);
-    const end = new Date();
-
     const findCart = await this.cartModel.findOne({
-      attributes: [ [fn('MAX', 'CART_SEQ'), 'maxSeq'] ],
+      attributes: [ [fn('MAX', col('seq')), 'maxSeq'] ],
       where: {
         userCd: cart.userCd,
         createdAt: {
-          [Op.between]: [start.toISOString(), end.toISOString()]
+          [Op.between]: [moment().startOf('day').format(), moment().format()]
         }
       },
       raw: true
