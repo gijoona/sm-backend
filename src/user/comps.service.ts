@@ -3,6 +3,7 @@ import { InjectModel } from "@nestjs/sequelize";
 import { Category } from "src/category/models/category.model";
 import { CompanyCategory } from "./models/comp-category.model";
 import { Company } from "./models/comp.model";
+import { Op } from 'sequelize';
 
 @Injectable()
 export class CompsService {
@@ -20,6 +21,17 @@ export class CompsService {
         cmpNo
       }
     })
+  }
+
+  async findCompany(search: string): Promise<Company[]> {
+    return this.compModel.findAll({
+      where: {
+        [Op.or]: [
+          {name: {[Op.like]: '%' + search + '%'}},
+          {cmpNo: {[Op.like]: '%' + search + '%'}},
+        ]
+      }
+    });
   }
 
   async save(company: Company): Promise<Company> {

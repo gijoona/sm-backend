@@ -21,36 +21,38 @@ export class CartService {
    */
   async findCartList(userCd: string): Promise<Cart[]> {
     return this.cartModel.findAll({
-      attributes: [ 'id', 'createdAt', 'seq', 'cmpNm',
+      attributes: [ 'id', 'date', 'seq', 'name', 'cmpId', 'cmpNo', 'cmpNm', 'memo', 'createdAt',
         [literal('(SELECT COUNT(SM_TSP_CART_DTL.CART_ID) FROM SM_TSP_CART_DTL WHERE SM_TSP_CART_DTL.CART_ID = `Cart`.`CART_ID`)'), 'count']
       ],
       where: {
         userCd
       },
       order: [
-        ['createdAt', 'DESC'],
+        ['date', 'DESC'],
         'seq'
       ]
     })
   }
 
-  async saveCart(cart: Cart): Promise<boolean> {
+  async createCart(cart: Cart): Promise<Cart> {
+    const today = moment().format('YYYY-MM-DD');
+
     const findCart = await this.cartModel.findOne({
-      attributes: [ [fn('MAX', col('seq')), 'maxSeq'] ],
+      attributes: [ [fn('max', col('CART_SEQ')), 'maxSeq'] ],
       where: {
         userCd: cart.userCd,
-        createdAt: {
-          [Op.between]: [moment().startOf('day').format(), moment().format()]
-        }
+        date: today
       },
       raw: true
     })
 
-    const seq = findCart && findCart['maxSeq'] ? parseInt(findCart['maxSeq']) + 1 : 1;
-    console.log(findCart['maxSeq'], seq);
-    return false;
-    // cart.seq = findCart && findCart['maxSeq'] ? parseInt(findCart['maxSeq']) + 1 : 1;
-    // return this.cartModel.upsert(cart);
+    cart.date = today;
+    cart.seq = findCart && findCart['maxSeq'] ? parseInt(findCart['maxSeq']) + 1 : 1;
+    return this.cartModel.create(cart);
+  }
+
+  async updateCart(cart: Cart): Promise<[number, Cart[]]> {
+    return this.cartModel.update(cart, { where: { id: cart.id } })
   }
 
   async deleteCart(id: number): Promise<void> {

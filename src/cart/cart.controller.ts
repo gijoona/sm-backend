@@ -21,12 +21,17 @@ export class CartController {
   @Post('/add')
   addCart(@Body() cart: Cart) {
     console.log('controller', cart);
-    return this.cartService.saveCart(cart);
+    return this.cartService.createCart(cart);
   }
 
   @Post('/addItem')
   addCartItem(@Body() cartItem: CartItem) {
     return this.cartService.createItem(cartItem);
+  }
+
+  @Patch('/update')
+  updateCart(@Body() cart: Cart) {
+    return this.cartService.updateCart(cart);
   }
 
   @Patch('/updateItem')

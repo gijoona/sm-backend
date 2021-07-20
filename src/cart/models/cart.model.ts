@@ -11,9 +11,17 @@ export class Cart extends Model {
   @Column({ field: 'CART_ID' })
   id: number;
   
-  // 카트 SEQ. 날짜별 생성.
+  // 카트생성 (YYYY-MM-DD)
+  @Column({ field: 'CART_DATE'})
+  date: string;
+
+  // 카트 SEQ. 날짜별 생성 SEQ.
   @Column({ field: 'CART_SEQ' })
   seq: number;
+
+  // 카트명
+  @Column({ field: 'CART_NM'})
+  name: string;
 
   // 카트 메모사항.
   @Column({ field: 'CART_MEMO' })
