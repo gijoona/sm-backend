@@ -31,13 +31,10 @@ export class ItemsService {
       offset: page * limit,
       limit: limit,
       where: {
-        [Op.and]: [
-          {code: {[Op.startsWith]: category}},
-          {[Op.or]: [
-            {code: {[Op.like]: '%' + search + '%'}},
-            {nameKor: {[Op.like]: '%' + search + '%'}},
-            {nameEng: {[Op.like]: '%' + search + '%'}}
-          ]}
+        [Op.or]: [
+          {code: {[Op.like]: '%' + search + '%'}},
+          {nameKor: {[Op.like]: '%' + search + '%'}},
+          {nameEng: {[Op.like]: '%' + search + '%'}}
         ]
       }
     });
