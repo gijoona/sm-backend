@@ -1,9 +1,11 @@
-import { Body, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Delete, Get, Param, Patch, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { Controller } from '@nestjs/common';
 import { Item } from './models/item.model';
 import { Query } from '@nestjs/common';
 import { Public } from 'src/auth/public';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { multerOptions } from 'src/conf/multer.options';
 
 @Controller('/items')
 export class ItemsController {
@@ -44,5 +46,13 @@ export class ItemsController {
   @Delete('/remove/:code')
   delete(@Param('code') code: string) {
     return this.itemsService.delete(code);
+  }
+
+  @Public()
+  @Post('/fileUpload')
+  @UseInterceptors(FileInterceptor('file', multerOptions))
+  uploadFile(@UploadedFile() file: Express.Multer.File, @Body() body) {
+    console.log(body.category);
+    return file;
   }
 }
