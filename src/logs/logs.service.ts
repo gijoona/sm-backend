@@ -20,6 +20,10 @@ export class LogsService {
     });
   }
 
+  async findChart(): Promise<Logs[]> {
+    return this.logsModel.findAll();
+  }
+
   async create(log: Logs): Promise<Logs> {
     return this.logsModel.create(log);
   }

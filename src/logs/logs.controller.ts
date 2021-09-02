@@ -13,6 +13,11 @@ export class LogsController {
   findAll(@Query('page') page: string, @Query('limit') limit: string) {
     return this.logsService.findAll(+page, +limit);
   }
+
+  @Get('/findChart')
+  findChart() {
+    return this.logsService.findChart();
+  }
   
   @Post('/create')
   create(@Body() log: Logs) {
