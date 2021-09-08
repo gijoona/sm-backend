@@ -51,8 +51,8 @@ export class ItemsController {
   @Public()
   @Post('/fileUpload')
   @UseInterceptors(FileInterceptor('file', multerOptions))
-  uploadFile(@UploadedFile() file: Express.Multer.File, @Body() body) {
-    console.log(body.category);
+  uploadFile(@UploadedFile() file: Express.Multer.File) {
+    console.log(file);
     return file;
   }
 }
